@@ -1,0 +1,25 @@
+en los case hay que poner un else siempre al final porque
+sino salta una excepción (case not found)
+
+comando fetch: la info que tengas de un cursor ponmela 
+sobre x variable (esta es una anotacion de la diapo 45)
+
+
+%FOUND. TRUE si la última instrucción FETCH devolvió una
+fila.
+
+%NOTFOUND. TRUE si la última instrucción FETCH NO
+devolvió una fila.
+
+%ISOPEN. TRUE si el cursor está abierto
+
+%ROWCOUNT. Número de filas extraídas del cursor hasta el
+momento
+
+
+Los cursores tambien sirven para hacer actualizaciones 
+sobre las filas que extrajo el cursor
+
+Siempre que creo una tabla o actualizo algo hay que poner
+al final COMMIT
+

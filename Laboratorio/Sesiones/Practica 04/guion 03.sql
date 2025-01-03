@@ -1,0 +1,16 @@
+select au_nombre, au_apellido from Autores;
+select titulo, to_char(ventas_previstas*precio,'fm09999D000000') from Titulos;
+select titulo, ventas_previstas from Titulos WHERE ventas_previstas BETWEEN 200 and 5000;
+select au_nombre, au_apellido, au_telefono from Autores;
+select au_nombre, au_apellido from Autores where au_telefono is null;
+select au_nombre, au_apellido, NVL(au_telefono, 'sin telefono') from Autores;
+select titulo_id, titulo, ventas_previstas from Titulos where titulo in ((select titulo from Titulos where tipo = 'BD') UNION (select titulo from Titulos where tipo = 'PROG')) ORDER BY precio DESC;
+select * from Autores where au_telefono like '456%';
+select avg(precio) from Titulos;
+select ed_id, count(titulo) from Titulos group by ed_id;
+select ed_id, tipo, count(titulo) from Titulos group by ed_id, tipo;
+select tipo, count(tipo) from Titulos group by tipo having tipo is not null;
+select tipo, avg(precio) as precio_medio from Titulos where f_publicacion > TO_DATE('01/01/2000','DD/MM/YYYY') group by tipo;
+select tipo, count(tipo) from Titulos group by tipo having count(tipo) > 1;
+select tipo, avg(precio) from Titulos group by tipo having avg(precio) > 35;
+select ed_id, avg(precio) from Titulos group by ed_id having ed_id > '2' and avg(precio) > 60 order by ed_id;

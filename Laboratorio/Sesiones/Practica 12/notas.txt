@@ -1,0 +1,32 @@
+El método executeUpdate es para lanzar instrucciones
+SQL como INSERT, DELETE, UPDATE, CREATE TABLE,
+DROP TABLE; etc. Recibe de parámetro un String con la 
+sentencia a realizar.
+Es de la clase Statement.
+
+el Statement stat = con.createStatement() es un método
+que nos sirve para poder ejecutar un comando SQL "normal"
+
+el PreparedStatement psConsulta= conn.prepareStatement(consulta1);
+es para procesar una cosulta con datos introducidos por el
+usuario
+
+
+en procedimientos almacenados el primer ? es para la salida
+del procedimiento y el ? de dentro de los parentesis de los
+procedimientos almacenados es para los parametros de entrada
+
+hay que registrar el parametro de salida mediante
+CaliableStatement cst = con.prepareCall(query.toString())
+
+cst.registerOutParameter(1,Types.INTEGER, 0);
+cst.setString(2,cifc); // introduce la variable cifc como
+			parámetro de la funcion/procedimiento 
+			almacenado
+
+cst.execute(); // para ejecutar el procedimiento
+
+
+
+
+

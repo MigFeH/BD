@@ -1,0 +1,41 @@
+Debemos siempre declarar la clave primaria
+Debemos siempre declarar la clave secundaria siempre que tengamos una conexion entre dos tablas
+
+el unique es para declarar una entidad única (que no se repite)
+el check es el dominio de un atributo
+el not null es para declarar un campo que sea rellenado de forma obligatorio
+
+todos los campos separados por comas
+
+CP == clave primaria
+
+varchar(8) == string de longitud 8
+decimal(1,0) == numero de 0 decimales
+decimal(2,0) == dos numeros enteros
+
+clave primaria: PK
+clave secundaria: FK
+
+en la relación 1:N a la entidad N (la de la izq) se le añade un campo nuevo que será la clave primaria de la entidad 1 (la de la derecha) como clave secundaria
+en la relación N:N a la entidad relación se le añade dos nuevos campos con las claves primarias de las entidades que relaciona como dos claves secundaria (en este caso la clave primaria de la entidad relacion es la union de las claves primarias de las entidades que relaciona)
+
+en una relacion N la entidad relacion tiene como claves primarias la union de las claves primarias de las entidades N (hay que referenciarlas a su vez)
+
+la cardinalidad viene marcada por la cardinalidad maxima
+
+
+
+Tanto en la generalización como en la especialización, las clases hijas heredan la clave primaria de la super clase como clave secundaria
+
+
+en un conjunto de relaciones se le añaden como atributos las claves primarias de las entidades que relaciona
+la clave primaria en este conjunto será la union de las claves primarias de las entidades n
+luego referenciamos cada atributo añadido
+
+
+un conjunto de relaciones tratado como una entidad agregacion funcionará como un conjunto de relaciones N:N
+luego relacionas las claves primarias de la agregacion como la union de las claves primarias de las entidades hijas, a su vez, las claves externas serán referenciadas
+a la agregacion como la union de las claves primarias de la agregacion
+
+
+

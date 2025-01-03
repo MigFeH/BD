@@ -1,0 +1,5 @@
+Tratamos el no_data_found cuando hacemos consultas!!!
+
+tratamos el no_data_found si hacemos consultas y luego el
+resto de excepciones con el raise_application_error(numero,sqlcode||' '||sqlerrm)
+

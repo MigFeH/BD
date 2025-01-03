@@ -1,0 +1,17 @@
+DBMS_OUTPUT.PUT_LINE('HOLA MUNDO'); -- SALIDA POR CONSOLA
+
+EXEC nombreProcedimiento; -- EJECUTAR PROCEDIMIENTO EN SQL
+
+SET SERVEROUTPUT ON -- (EN SQL) PARA QUE SE IMPRIMAN POR PANTALLA LOS RESULTADOS (DE LOS PROCEDIMIENTOS O DE SQL EN GENERAL)
+
+DBMS_OUTPUT.PUT_LINE('HOLA'||N); -- SALIDA POR CONSOLA ( LOS || SON PARA CONCATENAR)
+
+
+n distribucion.cantindad%TYPE; -- variable n basada en el tipo de dato de una columna de una tabla
+
+SELECT max(cantidad) INTO n FROM distribucion; -- le asignamos a la variable n anterior un valor
+
+N in concesionarios.cifc%TYPE -- lo ponemos como parámetro de entrada si este debe ser de un tipo de un valor de una columna de una tabla
+
+commit; -- para que los datos que se almacenen en una tabla a través de un procedimiento no se borren
+

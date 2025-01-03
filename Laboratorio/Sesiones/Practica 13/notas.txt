@@ -1,0 +1,27 @@
+Statement st = con.createStatement() para una consulta normal
+	ResultSet rs = st.executeQuery(query.toString())
+ó
+	ResultSet rs = st.executeUpdate(query.toString())
+
+(el ResultSet es el tipo de un objeto que nos permite
+procesar las filas del resultado)
+
+Para analizar el conjunto de resultados:
+while (rs.next()){
+	String isbn = rs.getString(1); // el primer elemento del select (en este caso es de tipo String)
+	float precio = rs.getDouble(“Precio”);  // el elemento del select cuyo acrónimo es "Precio"
+}
+
+
+PreparedStatement psConsulta= con.prepareStatement(consulta1) cuando haya parametros pasados por usuario
+
+//enlazamos cada variable con su correspondiente valor con set
+
+ResultSet rs = psConsulta.executeQuery(); // ejecutamos consulta
+
+
+
+query.append("{call PROCEDURE_10(?,?)}"); // el segundo parámetro es el de salida. El primero es de entrada.
+
+query.append("{? = call FUNCTION1_NUMERO_DE_VENTAS(?)}"); // el 
+primer parámetro (el de antes del igual) es el de salida. El segundo es de entrada

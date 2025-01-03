@@ -1,0 +1,24 @@
+CREATE OR REPLACE PROCEDURE PROCEDURE_RECAUDACION_CINE (loc IN cines.localidad%TYPE ) AS
+CURSOR CINES IS (SELECT c.codcine, sum(precio) as recaudado_cine
+                FROM cines c, salas s, entradas e
+                WHERE c.codcine = s.codcine
+                AND e.codsala = s.codsala
+                AND c.localidad = loc
+                GROUP BY c.codcine);
+                
+CURSOR PELICULAS (codigo cine.codcine%TYPE) IS (SELECT p.codpelicula, p.titulo, sum(precio) as recaudado_pelicula
+                                                FROM Peliculas p, Entradas e, Salas s
+                                                WHERE e.codpelicula = p.codpelicula
+                                                AND e.codsala = s.codsala
+                                                AND s.codcine = codigo
+                                                GROUP BY p.codpelicula, p.titulo);
+BEGIN
+  FOR cin IN CINES LOOP
+  dbms_output.put_line('Cine: '||cin.codcine||' – Recaudación_total: '||cin.recaudado_cine);
+    FOR peli IN PELICULAS(cin.codcine) LOOP
+    dbms_output.put_line('  - Pelicula: '||peli.codpelicula||' - Titulo: '||peli.titulo||' - Recaudado: '||peli.recaudado_pelicula);
+    END LOOP;
+  END LOOP;
+  
+
+END PROCEDURE_RECAUDACION_CINE;

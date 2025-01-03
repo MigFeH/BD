@@ -1,0 +1,2 @@
+:new.datosmayus:=upper(concat(:new.nombre,:new.apellido)); -- asigna al nuevo datosmayus la concatenacion del nuevo nombre y apellido en mayusculas
+

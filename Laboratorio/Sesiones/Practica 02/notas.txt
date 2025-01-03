@@ -1,0 +1,5 @@
+22:
+mio: select c.nombre, c.apellido from clientes c, ventas v where c.dni=v.dni and v.color='blanco' and v.color='rojo';
+solucion: select c.nombre, c.apellido from clientes c where c.dni in((select dni from ventas where color='rojo') intersect (select dni from ventas where color='blanco'));
+
+nos quedamos en el 25
