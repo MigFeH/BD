@@ -1,0 +1,48 @@
+Relacion 1:N
+	Meter la clave primaria de la entidad 1 como clave foránea not null en la entidad N
+	
+Relacion N:N
+	Hacer una nueva tabla intermedia cuya clave principal será, al menos, la unión de 
+	las claves primarias de las entidades que relaciona.
+	
+	Luego hay que referenciar esas claves con sus respectivas entidades
+
+Relacion 1:1
+	Se hace uso del UNIQUE a la vez del not null
+
+Entidad débil
+	Su clave principal será la unión de la clave principal de esta entidad débil y la 
+	clave principal de la/s entidad/es con las que se relaciona
+	
+	Luego hay que referenciar las claves externas (las principales que no sean de la 
+	entidad débil)
+
+Not null
+	Situaciones de uso:
+	1) En las relaciones 1:N o equivalentes a esta, si la cardinalidad mínima de la entidad 1 es tambien 1 
+	(se pone el not null en la entidad n) (se hace en esa situacion a menos que la 
+	clave a la que le vayamos a poner el not null forme parte de la clave primaria
+	de la entidad n)
+
+	2) Si nos dicen explícitamente en el enunciado que el campo debe ser rellenado obligatoriamente
+
+Unique
+	Lo usamos cuando no queremos que el valor de un atributo de una entidad se repita
+
+Agregación
+	Habitualmente es una relación N:N, se trata como una relacion N:N con la diferencia de que la entidad
+	agregación tiene como clave principal la union de las claves principales de esta (en caso de tenerlas)
+	y las claves principales de las entidades que relaciona.
+
+	Luego hay que referenciar las correspondientes claves foráneas
+
+Generalización/Especialización
+	Funcionan como "superclases" con la diferencia de que en la generalización no podemos tomar una
+	instancia de la entidad calificada como generalizada (que no puedes instanciar la superclase en la 
+	generalización) al contrario que en la especialización.
+
+	En la generalización, el enfoque es de abajo a arriba
+	En la especialización, el enfoque es de arriba a abajo
+
+	En ambos casos, las entidades de nivel inferior heredan las claves primarias de la entidad superior como
+	una clave primaria más. Luego esta clave primaria debe ser referenciada porque no deja de ser una clave foránea
