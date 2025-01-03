@@ -1,0 +1,118 @@
+CREATE OR REPLACE FUNCTION FUNCTION_DEVUELVE_NOMBRE_DEPARTAMENTO_Y_SU_PRESUPUESTO (texto out varchar2) 
+RETURN VARCHAR2 AS 
+nombre_departa department.dept_name%TYPE;
+presupuesto department.budget%TYPE;
+BEGIN
+  SELECT dept_name, budget INTO nombre_departa, presupuesto
+  FROM Department WHERE dept_name in (
+    SELECT c.dept_name 
+    from Course c, is_prerequisite p 
+    where not p.prereq_id = c.course_id
+    and c.credits = (select max(sum(c.credits)) from Course group by course_id));
+    
+    
+  RETURN 'Nombre: '||nombre_departa||' presupuesto: '||presupuesto;
+END FUNCTION_DEVUELVE_NOMBRE_DEPARTAMENTO_Y_SU_PRESUPUESTO;
+
+
+
+create or replace PROCEDURE PROCEDURE_MOSTRAR_PARA_CADA_CURSO AS 
+numinstructors decimal(2,0);
+curso course%ROWTYPE;
+capacidad classroom.capacity%TYPE;
+numero_estudiantes decimal(2,0);
+BEGIN
+  FOR i in (select * into curso
+    from Course 
+    where dept_name in (
+        select dept_name
+        from department
+        where budget < all(select avg(budget) from department)
+        ) order by title desc) loop
+    
+        select count(t.instructor_id) into numinstructors 
+        from teaches t, section s 
+        where t.sec_id = s.sec_id
+        and s.course_id = curso.course_id;
+        
+        DBMS_OUTPUT.PUT_LINE('COURSE: '||i.course_id||' '||i.title||' '||numinstructors);
+        
+        for j in (select * from Section s where s.course_id = i.course_id order by s.year,s.semester,s.sec_id) loop
+            
+            select c.capacity into capacidad
+            from classroom c
+            where j.class_building = c.class_building;
+            
+            select count(student_id) into numero_estudiantes
+            from takes t
+            where t.sec_id = j.sec_id
+            and t.semester = j.semester
+            and t.year = j.year;
+        
+            DBMS_OUTPUT.PUT_LINE('--SECTION: '||j.sec_id||' / '||j.semester||' / '||j.year||' / '||j.class_building||' / '||capacidad||' / '||numero_estudiantes);
+        end loop;
+        
+    end loop;
+    
+EXCEPTION
+    when NO_DATA_FOUND THEN
+      raise_application_error(-20001,sqlcode||' '||sqlerrm);
+    when OTHERS THEN
+         raise_application_error(-20002,sqlcode||' '||sqlerrm);
+  
+END PROCEDURE_MOSTRAR_PARA_CADA_CURSO;
+
+
+
+
+create or replace TRIGGER TRIGGER_COMPRUEBA_IMPARTE 
+BEFORE INSERT OR UPDATE ON TEACHES 
+FOR EACH ROW
+DECLARE
+CURSOR instructores_validos is (
+    select instructor_id 
+    from instructor 
+    where dept_name in (
+        select c.dept_name 
+        from course c, section s 
+        where c.course_id = s.course_id));
+        
+identificacion_inst Instructor.instructor_id%TYPE;
+pertenece BOOLEAN DEFAULT false;
+BEGIN
+   OPEN instructores_validos;
+   LOOP
+     FETCH instructores_validos INTO identificacion_inst;
+     EXIT WHEN instructores_validos%NOTFOUND;
+     
+     IF identificacion_inst = :new.instructor_id then
+       pertenece := true;
+     END IF;
+  END LOOP;
+  CLOSE instructores_validos;
+
+  IF not pertenece then
+    raise_application_error(-20003,'El instructor no puede impartir la sección');
+  end if;
+    
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    raise_application_error(-20004,sqlcode||' '||sqlerrm);
+  WHEN OTHERS THEN
+    raise_application_error(-20005,sqlcode||' '||sqlerrm);
+END;
+
+
+
+
+create or replace TRIGGER TRIGGER_NOTA_MAYUSCULA 
+BEFORE INSERT OR UPDATE OF GRADE ON TAKES 
+FOR EACH ROW 
+BEGIN
+  IF INSERTING THEN
+    INSERT INTO TAKES VALUES (:new.student_id,:new.course_id,:new.sec_id,:new.semester,:new.year,upper(:new.grade));
+  END IF;
+  IF UPDATING THEN
+    UPDATE TAKES SET grade = upper(:new.grade);
+  END IF;
+END;
